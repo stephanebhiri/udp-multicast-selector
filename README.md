@@ -119,6 +119,7 @@ Input N (239.0.1.N:500N) ──┘    active only)
 - **2MB socket buffers**: Handles traffic bursts
 - **Non-blocking output**: Drops packets on congestion (never blocks)
 - **Throttled error logging**: Max 1 error log per second
+- **Strict multicast bind**: Binds to multicast address (not 0.0.0.0) to prevent cross-group interference when multiple groups share the same port
 
 ## Use Cases
 

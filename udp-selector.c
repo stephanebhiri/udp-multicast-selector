@@ -160,9 +160,10 @@ int create_mcast_listener(selector_t *sel, const struct sockaddr_in *addr) {
 
     set_socket_buffers(sock, 0);
 
-    struct sockaddr_in bind_addr = *addr;
-    bind_addr.sin_addr.s_addr = INADDR_ANY;
-    if (bind(sock, (struct sockaddr *)&bind_addr, sizeof(bind_addr)) < 0) {
+    // STRICT BIND: Bind to the multicast address itself, not INADDR_ANY
+    // This prevents receiving packets from other multicast groups on the same port
+    // (the classic Linux multicast trap)
+    if (bind(sock, (struct sockaddr *)addr, sizeof(*addr)) < 0) {
         perror("bind");
         close(sock);
         return -1;
